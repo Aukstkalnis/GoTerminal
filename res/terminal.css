@@ -1,21 +1,42 @@
 #terminal-main-box {
-    border: 3px solid green;
     height: *;
 }
 
 .container {
-    background-color: yellow;
     border: 1px solid black;
+    flow: horizontal;
+    margin: 0;
+    padding: 0;
     size: *;
 }
 
 .element {
-    border: 1px solid olive;
-    background-color: orangered;
-    size: *;
+    width: *;
+    height: *;
+}
+
+#terminal-view {
+    /* display: block; */
+}
+
+#terminal-sidebar {
+    width: 250px;
+    min-width: 200px;
+    order: 2;
 }
 
 statusbar {
+    margin-top: 2px;
+    padding: 0;
     display: block;
     background: #4aa7ff;
+    height: 20px
+}
+
+.splitter {
+    background-color: black;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 1px;
+    height: *;
 }
