@@ -1,0 +1,21 @@
+#terminal-main-box {
+    border: 3px solid green;
+    height: *;
+}
+
+.container {
+    background-color: yellow;
+    border: 1px solid black;
+    size: *;
+}
+
+.element {
+    border: 1px solid olive;
+    background-color: orangered;
+    size: *;
+}
+
+statusbar {
+    display: block;
+    background: #4aa7ff;
+}
