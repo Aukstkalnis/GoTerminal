@@ -3,7 +3,6 @@
 }
 
 .container {
-    border: 1px solid black;
     flow: horizontal;
     margin: 0;
     padding: 0;
@@ -15,8 +14,33 @@
     height: *;
 }
 
+#terminal-control-nav {
+    background-color: #20447c;
+    width: *;
+}
+
+#terminal-control-nav-list {
+    list-style: none;
+    padding: 0;
+    flow: horizontal;
+    margin: 0;
+}
+
+#terminal-control-nav-list li {
+    color: white;
+    margin: 0;
+}
+
+#terminal-control-view {
+    background-color: pink;
+}
+
 #terminal-view {
     /* display: block; */
+}
+
+#terminal-output {
+    background-color: gold;
 }
 
 #terminal-sidebar {
@@ -26,17 +50,14 @@
 }
 
 statusbar {
-    margin-top: 2px;
     padding: 0;
     display: block;
     background: #4aa7ff;
     height: 20px
 }
 
-.splitter {
-    background-color: black;
-    margin-top: 3px;
-    margin-bottom: 3px;
-    width: 1px;
-    height: *;
+button {
+    border-radius: 10%;
+    width: 20px;
+    height: 30px;
 }
