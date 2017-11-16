@@ -22,7 +22,7 @@ func main() {
 	if !ok {
 		log.Println("set debug mode failed")
 	}
-	if err = w.LoadFile("scapp.html"); err != nil {
+	if err = w.LoadFile("res/scapp.html"); err != nil {
 		log.Fatal(err)
 	}
 	w.Show()

@@ -3,6 +3,7 @@
 <head>
     <style>
         @import url(res/terminal.css);
+        @import url(terminal.css);
         html,
         body {
             margin: 0;
@@ -17,6 +18,14 @@
     <div id="terminal-main-box">
         <div class="container">
             <div id="terminal-sidebar" class="element">
+                <div id="fast-control-panel">
+                    <button class="button">Open</button>
+                    <select id="terminal-com-port-list">
+                        <option value="COM1">COM1</option>
+                    </select>
+                    <input type="checkbox">DTR</input>
+                    <input type="checkbox">RTS</input>
+                </div>
                 <div id="terminal-control-nav">
                     <ul id="terminal-control-nav-list">
                         <li><button>Btn1</button></li>
@@ -25,10 +34,12 @@
                     </ul>
                 </div>
                 <div id="terminal-control-view" class="element">
-
-                    <include src="SerialSettings.html" />
-                    <div></div>
-                    <div></div>
+                    <div id="terminal-settings-box">
+                        <include src="res/SerialSettings.html" />
+                        <include src="SerialSettings.html" />
+                    </div>
+                    <div id="terminal-search-box">
+                    </div>
                 </div>
             </div>
             <div id="terminal-view" class="element">
@@ -38,7 +49,8 @@
             </div>
         </div>
         <statusbar id="terminal-status-bar">
-            CTC CD DSR RI <strong>DTR RTS</strong>
+            CTC CD DSR RI
+            <strong>DTR RTS</strong>
         </statusbar>
     </div>
 </body>

@@ -32,7 +32,7 @@
 }
 
 #terminal-control-view {
-    background-color: pink;
+    background-color: rgb(223, 248, 179);
 }
 
 #terminal-view {
@@ -46,7 +46,6 @@
 #terminal-sidebar {
     width: 250px;
     min-width: 200px;
-    order: 2;
 }
 
 statusbar {
@@ -56,8 +55,34 @@ statusbar {
     height: 20px
 }
 
-button {
+button[] {
     border-radius: 10%;
     width: 20px;
     height: 30px;
+}
+
+#terminal-settings select {
+    width: 100px;
+}
+
+#terminal-settings table {
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
+#fast-control-panel {
+    flow: horizontal;
+    background-color: blanchedalmond;
+    height: 30px;
+}
+
+.button {
+    border-radius: 10%;
+    width: 50px;
+    height: *;
+}
+
+.button:focus {
+    background: red;
+
 }
