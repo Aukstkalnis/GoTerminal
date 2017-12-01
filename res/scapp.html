@@ -4,13 +4,22 @@
     <style>
         @import url(res/terminal.css);
         @import url(terminal.css);
+        @import url(res/widgets.css);
         html,
         body {
             margin: 0;
         }
     </style>
-    <script type="text/tisctipt">
-
+    <script type="text/tiscript">
+        $(.button) << event click() {
+            if (this.text == "Close") {
+                view.msgbox(#alert, "Open");
+                this.text = "Open";
+            } else {
+                view.msgbox(#alert, "Close");
+                this.text = "Close";
+            }
+        }
     </script>
 </head>
 
@@ -28,9 +37,9 @@
                 </div>
                 <div id="terminal-control-nav">
                     <ul id="terminal-control-nav-list">
-                        <li><button>Btn1</button></li>
-                        <li><button>Btn2</button></li>
-                        <li><button>Btn3</button></li>
+                        <li><button>TAB1</button></li>
+                        <li><button>TAB2</button></li>
+                        <li><button>TAB3</button></li>
                     </ul>
                 </div>
                 <div id="terminal-control-view" class="element">
@@ -42,6 +51,7 @@
                     </div>
                 </div>
             </div>
+            <div class="splitter"></div>
             <div id="terminal-view" class="element">
                 <output type="text">
                     This is log earie

@@ -32,7 +32,8 @@
 }
 
 #terminal-control-view {
-    background-color: rgb(223, 248, 179);
+    color: white;
+    background-color: rgb(84, 85, 83);
 }
 
 #terminal-view {
