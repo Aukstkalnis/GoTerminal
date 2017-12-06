@@ -4,7 +4,6 @@
     <style>
         @import url(res/terminal.css);
         @import url(terminal.css);
-        @import url(res/widgets.css);
         html,
         body {
             margin: 0;
@@ -25,16 +24,13 @@
         div#tabs > label:last-child { margin-right:0; }
         div#tabs > label.placeholder { visibility:hidden; }
 
-        div#tabs > label { background-color:rgb(94, 85, 83); }
+        div#tabs > label { background-color: rgb(94, 85, 83); }
 
         div#tabs > label:checked {
-            background-color:rgb(84, 85, 83);
+            background-color: rgb(84, 85, 83);
             position:relative;
         }
 
-        div#panels {
-          
-        }
     </style>
     <script type="text/tiscript">
         $(.button) << event click() {
@@ -45,8 +41,13 @@
             }
         };
         $(div#tabs > label.t1) << event click() {
-            $(div#panels > div#panel-settings).hidden = true;
-        }
+            $(#panel-settings).style#display = "block"
+            $(#panel-commands).style#display = "none"
+        };
+        $(div#tabs > label.t2) << event click() {
+            $(#panel-settings).style#display = "none"
+            $(#panel-commands).style#display = "block"
+        };
     </script>
 </head>
 
@@ -65,11 +66,13 @@
                 <div #tabs>
                     <label checked .t1>Settings</label>
                     <label .t2>Commands</label>
-                    <label .t3>Auto</label>
                 </div>
                 <div #panels>
                     <div #panel-settings>
                         <include src="res/SerialSettings.html" />
+                    </div>
+                    <div #panel-commands>
+                        <button>Command1</button>
                     </div>
                 </div>
             </div>
