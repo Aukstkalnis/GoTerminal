@@ -9,60 +9,80 @@
         body {
             margin: 0;
         }
+
+        div#tabs { flow:horizontal;}
+
+        div#tabs > label {
+            display:block;
+            width: max-content;
+            color:white;
+            padding:4px 12px;
+            margin:0 -8px;
+            background-color: silver;
+            behavior:switch; /* so only one has :checked state */
+        }
+        div#tabs > label:first-child { margin-left:0; }
+        div#tabs > label:last-child { margin-right:0; }
+        div#tabs > label.placeholder { visibility:hidden; }
+
+        div#tabs > label { background-color:rgb(94, 85, 83); }
+
+        div#tabs > label:checked {
+            background-color:rgb(84, 85, 83);
+            position:relative;
+        }
+
+        div#panels {
+          
+        }
     </style>
     <script type="text/tiscript">
         $(.button) << event click() {
             if (this.text == "Close") {
-                view.msgbox(#alert, "Open");
                 this.text = "Open";
             } else {
-                view.msgbox(#alert, "Close");
                 this.text = "Close";
             }
+        };
+        $(div#tabs > label.t1) << event click() {
+            $(div#panels > div#panel-settings).hidden = true;
         }
     </script>
 </head>
 
 <body>
-    <div id="terminal-main-box">
-        <div class="container">
-            <div id="terminal-sidebar" class="element">
+    <frameset cols="250dip,*">
+        <div id="sidebar">
+            <div class="sidebar-veiw">
                 <div id="fast-control-panel">
-                    <button class="button">Open</button>
-                    <select id="terminal-com-port-list">
+                    <select id="ports-list">
                         <option value="COM1">COM1</option>
                     </select>
+                    <button class="button">Open</button>
                     <input type="checkbox">DTR</input>
                     <input type="checkbox">RTS</input>
                 </div>
-                <div id="terminal-control-nav">
-                    <ul id="terminal-control-nav-list">
-                        <li><button>TAB1</button></li>
-                        <li><button>TAB2</button></li>
-                        <li><button>TAB3</button></li>
-                    </ul>
+                <div #tabs>
+                    <label checked .t1>Settings</label>
+                    <label .t2>Commands</label>
+                    <label .t3>Auto</label>
                 </div>
-                <div id="terminal-control-view" class="element">
-                    <div id="terminal-settings-box">
+                <div #panels>
+                    <div #panel-settings>
                         <include src="res/SerialSettings.html" />
-                        <include src="SerialSettings.html" />
-                    </div>
-                    <div id="terminal-search-box">
                     </div>
                 </div>
-            </div>
-            <div class="splitter"></div>
-            <div id="terminal-view" class="element">
-                <output type="text">
-                    This is log earie
-                </output>
             </div>
         </div>
-        <statusbar id="terminal-status-bar">
-            CTC CD DSR RI
-            <strong>DTR RTS</strong>
-        </statusbar>
-    </div>
+        <div id="view">
+            <output type="text">
+                This is log earie
+            </output>
+        </div>
+    </frameset>
+    <statusbar>
+        CTC CD DSR RI <strong>DTR RTS</strong>
+    </statusbar>
 </body>
 
 </html>

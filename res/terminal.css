@@ -1,89 +1,27 @@
-#terminal-main-box {
-    height: *;
-}
-
-.container {
-    flow: horizontal;
-    margin: 0;
-    padding: 0;
-    size: *;
-}
-
-.element {
-    width: *;
-    height: *;
-}
-
-#terminal-control-nav {
-    background-color: #20447c;
-    width: *;
-}
-
-#terminal-control-nav-list {
-    list-style: none;
-    padding: 0;
-    flow: horizontal;
-    margin: 0;
-}
-
-#terminal-control-nav-list li {
-    color: white;
-    margin: 0;
-}
-
-#terminal-control-view {
+#sidebar {
+    overflow: hidden;
     color: white;
     background-color: rgb(84, 85, 83);
-}
-
-#terminal-view {
-    /* display: block; */
-}
-
-#terminal-output {
-    background-color: gold;
-}
-
-#terminal-sidebar {
-    width: 250px;
-    min-width: 200px;
 }
 
 statusbar {
     padding: 0;
     display: block;
-    background: #4aa7ff;
-    height: 20px
-}
-
-button[] {
-    border-radius: 10%;
-    width: 20px;
-    height: 30px;
+    background: #84b5e4;
+    height: 18px;
+    flow: horizontal;
 }
 
 #terminal-settings select {
     width: 100px;
 }
 
-#terminal-settings table {
-    margin-top: 5px;
-    margin-left: 5px;
-}
-
 #fast-control-panel {
     flow: horizontal;
-    background-color: blanchedalmond;
     height: 30px;
+    border-bottom: 1px solid black;
 }
 
 .button {
-    border-radius: 10%;
-    width: 50px;
-    height: *;
-}
-
-.button:focus {
-    background: red;
 
 }
