@@ -33,6 +33,11 @@
 
     </style>
     <script type="text/tiscript">
+        function self.ready() {
+            $(#panel-settings).style#display = "block";
+            $(#panel-commands).style#display = "none";
+            $(#panel-search).style#display = "none";
+        }
         $(.button) << event click() {
             if (this.text == "Close") {
                 this.text = "Open";
@@ -41,12 +46,19 @@
             }
         };
         $(div#tabs > label.t1) << event click() {
-            $(#panel-settings).style#display = "block"
-            $(#panel-commands).style#display = "none"
+            $(#panel-settings).style#display = "block";
+            $(#panel-commands).style#display = "none";
+            $(#panel-search).style#display = "none";
         };
         $(div#tabs > label.t2) << event click() {
-            $(#panel-settings).style#display = "none"
-            $(#panel-commands).style#display = "block"
+            $(#panel-settings).style#display = "none";
+            $(#panel-commands).style#display = "block";
+            $(#panel-search).style#display = "none";
+        };
+        $(div#tabs > label.t3) << event click() {
+            $(#panel-settings).style#display = "none";
+            $(#panel-commands).style#display = "none";
+            $(#panel-search).style#display = "block";
         };
     </script>
 </head>
@@ -66,6 +78,7 @@
                 <div #tabs>
                     <label checked .t1>Settings</label>
                     <label .t2>Commands</label>
+                    <label .t3>Search</label>
                 </div>
                 <div #panels>
                     <div #panel-settings>
@@ -73,6 +86,9 @@
                     </div>
                     <div #panel-commands>
                         <button>Command1</button>
+                    </div>
+                    <div #panel-search>
+                        <include src="res/Search.html" />
                     </div>
                 </div>
             </div>
