@@ -29,7 +29,7 @@
   branch = "master"
   name = "github.com/sciter-sdk/go-sciter"
   packages = [".","rice","window"]
-  revision = "bc771cb8c87b208db382a83cce500bd7ad514df5"
+  revision = "9646a0a383ede92795f5619e9f235c10fb61122c"
 
 [solve-meta]
   analyzer-name = "dep"
