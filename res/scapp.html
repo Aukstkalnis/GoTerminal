@@ -68,10 +68,10 @@
         <div id="sidebar">
             <div class="sidebar-veiw">
                 <div id="fast-control-panel">
+                    <button class="button">Open</button>
                     <select id="ports-list">
                         <option value="COM1">COM1</option>
                     </select>
-                    <button class="button">Open</button>
                     <input type="checkbox">DTR</input>
                     <input type="checkbox">RTS</input>
                 </div>
@@ -85,7 +85,7 @@
                         <include src="res/SerialSettings.html" />
                     </div>
                     <div #panel-commands>
-                        <button>Command1</button>
+                        <include src="res/SerialCommandsTab.html" />
                     </div>
                     <div #panel-search>
                         <include src="res/Search.html" />
