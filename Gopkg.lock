@@ -4,7 +4,10 @@
 [[projects]]
   branch = "master"
   name = "github.com/GeertJohan/go.rice"
-  packages = [".","embedded"]
+  packages = [
+    ".",
+    "embedded"
+  ]
   revision = "c02ca9a983da5807ddf7d796784928f5be4afd09"
 
 [[projects]]
@@ -28,8 +31,12 @@
 [[projects]]
   branch = "master"
   name = "github.com/sciter-sdk/go-sciter"
-  packages = [".","rice","window"]
-  revision = "9646a0a383ede92795f5619e9f235c10fb61122c"
+  packages = [
+    ".",
+    "rice",
+    "window"
+  ]
+  revision = "8b236559b9ac242721e96957c71469fd9d21c1a8"
 
 [solve-meta]
   analyzer-name = "dep"
