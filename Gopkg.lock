@@ -36,7 +36,7 @@
     "rice",
     "window"
   ]
-  revision = "8b236559b9ac242721e96957c71469fd9d21c1a8"
+  revision = "c669d10c28344394023b89519f3f7a514df0229a"
 
 [solve-meta]
   analyzer-name = "dep"
