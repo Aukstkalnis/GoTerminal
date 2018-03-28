@@ -1,17 +1,18 @@
 #include <sciter-x.h>
 
 // getting ISciterAPI reference:
+const char * SCITER_DLL_PATH = SCITER_DLL_NAME;
 
 #ifdef STATIC_LIB
 
     EXTERN_C ISciterAPI* SCAPI SciterAPI();
 
 #if defined(__cplusplus) && !defined(PLAIN_API_ONLY)
-    inline ISciterAPI* SAPI( ISciterAPI* ext = nullptr ) {
+    ISciterAPI* SAPI( ISciterAPI* ext = nullptr ) {
 #else
-    inline ISciterAPI* SAPI(ISciterAPI* ext) {
+    ISciterAPI* SAPI(ISciterAPI* ext) {
 #endif
-       static ISciterAPI* _api = nullptr;
+       static ISciterAPI* _api = 0;
        if( ext ) _api = ext;
        if( !_api )
        {
@@ -31,13 +32,7 @@
        if( ext ) _api = ext;
        if( !_api )
        {
-          HMODULE hm = LoadLibrary( TEXT("sciter.dll") );
-          //#if defined(WIN64) || defined(_WIN64)
-          //  TEXT("sciter64.dll")
-          //#else
-          //  TEXT("sciter32.dll")
-          //#endif
-          //);
+          HMODULE hm = LoadLibraryA( SCITER_DLL_PATH );
           if(hm) {
             SciterAPI_ptr sciterAPI = (SciterAPI_ptr) GetProcAddress(hm, "SciterAPI");
             if( sciterAPI ) {
@@ -77,7 +72,9 @@
             realpath(pathbuf, folderpath);
             *strrchr(folderpath, '/') = '\0';
 
-            void* lib_sciter_handle = 0;
+            // 0. try to load from user-provided library full path.
+            void* lib_sciter_handle = dlopen(SCITER_DLL_PATH, RTLD_LOCAL|RTLD_LAZY);
+            if (!lib_sciter_handle)
             {
                 // 1. try to load from the same folder as this executable
                 const char* lookup_paths[] =
@@ -136,8 +133,10 @@
                //strcat  (pathbuf, "/");
             }
 
-            void* lib_sciter_handle = dlopen(SCITER_DLL_NAME, RTLD_LOCAL|RTLD_LAZY);
+            // 0. try to load from user-provided library full path.
+            void* lib_sciter_handle = dlopen(SCITER_DLL_PATH, RTLD_LOCAL|RTLD_LAZY);
             if( !lib_sciter_handle ) {
+                // 1. try to load from the same folder as this executable
                 fprintf(stderr, "[%s] Unable to load library: %s\n", __FILE__, dlerror());
                 const char* lookup_paths[] =
                 {

@@ -12,6 +12,12 @@
 
 [[projects]]
   branch = "master"
+  name = "github.com/creack/goselect"
+  packages = ["."]
+  revision = "3adf2cd7aa679b2e107555d0d0427e75acca0db5"
+
+[[projects]]
+  branch = "master"
   name = "github.com/daaku/go.zipexe"
   packages = ["."]
   revision = "a5fe2436ffcb3236e175e5149162b41cd28bd27d"
@@ -26,7 +32,7 @@
   branch = "master"
   name = "github.com/lxn/win"
   packages = ["."]
-  revision = "aaf8f59e531a7f484381fbc5453def0cffe9c526"
+  revision = "d3b5b63dbde2ccbcad21970eb7080e90c2d631b3"
 
 [[projects]]
   branch = "master"
@@ -36,11 +42,29 @@
     "rice",
     "window"
   ]
-  revision = "c669d10c28344394023b89519f3f7a514df0229a"
+  revision = "8d2880b5bfb69487373c736c88d6abf28540a258"
+
+[[projects]]
+  branch = "master"
+  name = "go.bug.st/serial.v1"
+  packages = [
+    ".",
+    "unixutils"
+  ]
+  revision = "eae1344f9f90101f887b08d13391c34399f97873"
+
+[[projects]]
+  branch = "master"
+  name = "golang.org/x/sys"
+  packages = [
+    "unix",
+    "windows"
+  ]
+  revision = "13d03a9a82fba647c21a0ef8fba44a795d0f0835"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "ff1f48d55fa4ff4bc19562d56b49f84658e5d7157fe00bbd35706ddb4fb15620"
+  inputs-digest = "b4d3b1502edf5f8188153df1a30f692e9aaa48c1d0e5129dac65a57041eb9b33"
   solver-name = "gps-cdcl"
   solver-version = 1
