@@ -14,7 +14,7 @@
   branch = "master"
   name = "github.com/creack/goselect"
   packages = ["."]
-  revision = "3adf2cd7aa679b2e107555d0d0427e75acca0db5"
+  revision = "176c667f75aaf12301181e3cbf69da406ba0fd99"
 
 [[projects]]
   branch = "master"
@@ -42,7 +42,7 @@
     "rice",
     "window"
   ]
-  revision = "8d2880b5bfb69487373c736c88d6abf28540a258"
+  revision = "b3664515661a1ebfd456015895f26435b86e0527"
 
 [[projects]]
   branch = "master"
@@ -60,7 +60,7 @@
     "unix",
     "windows"
   ]
-  revision = "13d03a9a82fba647c21a0ef8fba44a795d0f0835"
+  revision = "1d206c9fa8975fb4cf00df1dc8bf3283dc24ba0e"
 
 [solve-meta]
   analyzer-name = "dep"
