@@ -32,7 +32,7 @@
   branch = "master"
   name = "github.com/lxn/win"
   packages = ["."]
-  revision = "d3b5b63dbde2ccbcad21970eb7080e90c2d631b3"
+  revision = "d66bec92f335fda50a0ecfaecffaf36b149ca30c"
 
 [[projects]]
   branch = "master"
@@ -60,7 +60,7 @@
     "unix",
     "windows"
   ]
-  revision = "1d206c9fa8975fb4cf00df1dc8bf3283dc24ba0e"
+  revision = "b126b21c05a91c856b027c16779c12e3bf236954"
 
 [solve-meta]
   analyzer-name = "dep"
