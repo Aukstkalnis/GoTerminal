@@ -593,7 +593,7 @@ type MethodParams struct {
 type ScriptingMethodParams C.SCRIPTING_METHOD_PARAMS
 
 func (s *ScriptingMethodParams) Name() string {
-	return BytePtrToString((*byte)(unsafe.Pointer(s.name)))
+	return C.GoString(s.name)
 }
 
 func (s *ScriptingMethodParams) Argc() int {
@@ -887,14 +887,7 @@ func (s *ScnLoadData) Uri() string {
 }
 
 func (s *ScnLoadData) Data() []byte {
-	ret := []byte{}
-	var b byte
-	pdata := uintptr(unsafe.Pointer(s.outData))
-	step := unsafe.Sizeof(b)
-	for i := 0; i < int(s.outDataSize); i++ {
-		b = *(*byte)(unsafe.Pointer(pdata + uintptr(i)*step))
-		ret = append(ret, b)
-	}
+	ret := ByteCPtrToBytes(s.outData, s.outDataSize)
 	return ret
 }
 
@@ -976,7 +969,7 @@ type ScnAttachBehavior C.SCN_ATTACH_BEHAVIOR
 // }
 
 func (s *ScnAttachBehavior) BehaviorName() string {
-	return BytePtrToString((*byte)(unsafe.Pointer(s.behaviorName)))
+	return C.GoString(s.behaviorName)
 }
 
 func (s *ScnAttachBehavior) Element() C.HELEMENT {

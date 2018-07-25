@@ -2,16 +2,22 @@
 #define __tis_h__
 
 #if defined(__GNUC__)
-  #define __cdecl __attribute__((__cdecl__))
+  #ifdef __LP64__
+    #define TIS_CDECL
+  #else
+    #define TIS_CDECL __attribute__((__cdecl__))
+  #endif
+#else
+  #define TIS_CDECL __cdecl
 #endif
 
 #if defined(_WINDOWS) || defined(WIN32) || defined(WIN64)
   #define EXTAPI __stdcall
 #else
-  #define EXTAPI __cdecl
+  #define EXTAPI TIS_CDECL
 #endif
 
-#define TISAPI __cdecl
+#define TISAPI TIS_CDECL
 
 #pragma pack(push,8)
 

@@ -54,8 +54,9 @@ const char * SCITER_DLL_PATH = SCITER_DLL_NAME;
        return _api;
     }
 
-
 #elif defined(OSX)
+
+    #include <string.h>
 
     //typedef ISciterAPI* SCAPI (*SciterAPI_ptr)();
 
@@ -221,9 +222,9 @@ const char * SCITER_DLL_PATH = SCITER_DLL_NAME;
    VOID    SCAPI SciterGetPPI (HWINDOW hWndSciter, UINT* px, UINT* py) { SAPI(NULL)->SciterGetPPI (hWndSciter,px,py); }
    BOOL    SCAPI SciterGetViewExpando ( HWINDOW hwnd, VALUE* pval ) { return SAPI(NULL)->SciterGetViewExpando ( hwnd, pval ); }
 #ifdef WINDOWS
-   BOOL    SCAPI SciterRenderD2D (HWINDOW hWndSciter, ID2D1RenderTarget* prt) { return SAPI(NULL)->SciterRenderD2D (hWndSciter,prt); }
-   BOOL    SCAPI SciterD2DFactory (ID2D1Factory ** ppf) { return SAPI(NULL)->SciterD2DFactory (ppf); }
-   BOOL    SCAPI SciterDWFactory (IDWriteFactory ** ppf) { return SAPI(NULL)->SciterDWFactory (ppf); }
+   BOOL    SCAPI SciterRenderD2D (HWINDOW hWndSciter, IUnknown* /*ID2D1RenderTarget**/ prt) { return SAPI(NULL)->SciterRenderD2D (hWndSciter,prt); }
+   BOOL    SCAPI SciterD2DFactory (void** /*ID2D1Factory ***/ ppf) { return SAPI(NULL)->SciterD2DFactory (ppf); }
+   BOOL    SCAPI SciterDWFactory (void** /*IDWriteFactory ***/ ppf) { return SAPI(NULL)->SciterDWFactory (ppf); }
 #endif
    BOOL    SCAPI SciterGraphicsCaps (LPUINT pcaps) { return SAPI(NULL)->SciterGraphicsCaps (pcaps); }
    BOOL    SCAPI SciterSetHomeURL (HWINDOW hWndSciter, LPCWSTR baseUrl) { return SAPI(NULL)->SciterSetHomeURL (hWndSciter,baseUrl); }
@@ -366,3 +367,15 @@ const char * SCITER_DLL_PATH = SCITER_DLL_NAME;
   BOOL SCAPI Sciter_V2v(HVM vm, const VALUE* value, tiscript_value* out_script_value) { return SAPI(NULL)->Sciter_V2v(vm,value,out_script_value); }
 
   BOOL SCAPI SciterProcX(HWINDOW hwnd, SCITER_X_MSG* pMsg) { return SAPI(NULL)->SciterProcX(hwnd, pMsg); }
+
+	HSARCHIVE SCAPI SciterOpenArchive (LPCBYTE archiveData, UINT archiveDataLength) { 
+		return SAPI(NULL)->SciterOpenArchive (archiveData, archiveDataLength); 
+	}
+
+	BOOL SCAPI SciterGetArchiveItem (HSARCHIVE harc, LPCWSTR path, LPCBYTE* pdata, UINT* pdataLength) {
+		return SAPI(NULL)->SciterGetArchiveItem (harc, path, pdata, pdataLength); 
+	}
+  
+  BOOL SCAPI SciterCloseArchive (HSARCHIVE harc) {
+    return SAPI(NULL)->SciterCloseArchive (harc);
+  }
