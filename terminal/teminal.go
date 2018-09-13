@@ -23,10 +23,6 @@ const (
 	TwoStopBits          = StopBits(serial.TwoStopBits)
 )
 
-type Terminaler interface {
-	serial.Port
-}
-
 type Terminal struct {
 	// mu           sync.RWMutex
 	port         string
@@ -47,6 +43,8 @@ func New(opts ...Option) (*Terminal, error) {
 			Parity:   serial.NoParity,
 			StopBits: serial.OneStopBit,
 		},
+		dtrInitState: false,
+		rtsInitState: false,
 	}
 	var err error
 	for _, o := range opts {
