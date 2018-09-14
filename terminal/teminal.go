@@ -58,8 +58,10 @@ func New(opts ...Option) (*Terminal, error) {
 func (t *Terminal) Open() (err error) {
 	t.internalPort, err = serial.Open(t.port, &t.mode)
 	if err == nil {
-		t.SetDTR(t.dtrInitState)
-		t.SetRTS(t.rtsInitState)
+		err = t.SetDTR(t.dtrInitState)
+		if err == nil {
+			err = t.SetRTS(t.rtsInitState)
+		}
 	}
 	return err
 }
