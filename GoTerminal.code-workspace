@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "cmd\\GoTerminal",
+			"name": "Terminal"
+		}
+	],
+	"settings": {}
+}

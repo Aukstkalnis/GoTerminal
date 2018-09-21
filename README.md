@@ -18,6 +18,7 @@ TBA
     1. Connecting to serial port with defined settings
     1. Reading data from serial port
     1. Writing to serial port
+    1. Data forwarding
     1. Not shore yet
     
  1. **TCP Terminal:**

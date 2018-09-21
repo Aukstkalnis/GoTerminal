@@ -32,6 +32,7 @@ type Terminal struct {
 	StateDTR     bool
 	dtrInitState bool
 	rtsInitState bool
+	LineEnding   string
 }
 
 func New(opts ...Option) (*Terminal, error) {
