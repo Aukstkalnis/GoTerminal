@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/Aukstkalnis/GoTerminal/terminal"
 	sciter "github.com/sciter-sdk/go-sciter"
 	"github.com/sciter-sdk/go-sciter/rice"
 	"github.com/sciter-sdk/go-sciter/window"
@@ -25,6 +26,35 @@ func main() {
 	if err = w.LoadFile("res/scapp.html"); err != nil {
 		log.Fatal(err)
 	}
+	root, _ := w.GetRootElement()
+	setCallBacks(root)
 	w.Show()
 	w.Run()
+}
+
+func setCallBacks(root *sciter.Element) {
+	el, err := root.SelectById("port-list")
+	if err != nil {
+		return
+	}
+	el.OnClick(func() {
+		pop, err := el.Select("popup")
+
+		if err != nil {
+			fmt.Println(err)
+		}
+		str := terminal.GetPortList()
+		pop[0].Clear()
+		for _, v := range str {
+			newEl, err := sciter.CreateElement("option", v)
+			if err != nil {
+				fmt.Println(err)
+			}
+			pop[0].Append(newEl)
+
+		}
+		fmt.Println("OnClick Event!")
+	})
+
+	// e, err = root.SelectById()
 }

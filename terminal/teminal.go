@@ -1,12 +1,13 @@
 package terminal
 
 import (
+	"errors"
+	"sync"
+
 	serial "github.com/albenik/go-serial"
 )
 
 type Parity serial.Parity
-
-type StopBits serial.StopBits
 
 // Parity values are defined in serial library
 const (
@@ -17,14 +18,18 @@ const (
 	SpaceParity = Parity(serial.SpaceParity)
 )
 
+type StopBits serial.StopBits
+
 const (
 	OneStopBit           = StopBits(serial.OneStopBit)
 	OnePointFiveStopBits = StopBits(serial.OnePointFiveStopBits)
 	TwoStopBits          = StopBits(serial.TwoStopBits)
 )
 
+type LineEnding string
+
 type Terminal struct {
-	// mu           sync.RWMutex
+	mu           sync.RWMutex
 	port         string
 	mode         serial.Mode
 	internalPort serial.Port
@@ -32,8 +37,17 @@ type Terminal struct {
 	StateDTR     bool
 	dtrInitState bool
 	rtsInitState bool
-	LineEnding   string
+	LineEnding
+	opened  bool
+	err     error
+	readErr error
+	readBuf []byte
 }
+
+var (
+	// PortClosedErr shows that ports is closed or not initialized
+	PortClosedErr = errors.New("port is closed")
+)
 
 func New(opts ...Option) (*Terminal, error) {
 	terminal := Terminal{
@@ -44,6 +58,7 @@ func New(opts ...Option) (*Terminal, error) {
 			Parity:   serial.NoParity,
 			StopBits: serial.OneStopBit,
 		},
+		LineEnding:   "\r",
 		dtrInitState: false,
 		rtsInitState: false,
 	}
@@ -64,10 +79,14 @@ func (t *Terminal) Open() (err error) {
 			err = t.SetRTS(t.rtsInitState)
 		}
 	}
+	if err != nil {
+		t.opened = false
+	}
 	return err
 }
 
 func (t *Terminal) Close() error {
+	t.opened = false
 	return t.internalPort.Close()
 }
 
@@ -93,4 +112,16 @@ func (t *Terminal) SetRTS(state bool) error {
 		t.StateRTS = state
 	}
 	return err
+}
+
+func (t *Terminal) read() {
+	// var n int
+	// t.mu.RLock()
+	// t.mu.RUnlock()
+	// for {
+	// 	if n, t.readErr = t.internalPort.Read(t.readBuf); t.readErr != nil {
+	// 		return
+	// 	}
+	// 	n = 0
+	// }
 }

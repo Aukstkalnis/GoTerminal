@@ -51,5 +51,11 @@ func SetStartupRTS(state bool) Option {
 		opt.rtsInitState = state
 		return nil
 	}
+}
 
+func SetLineEnding(lineEnding LineEnding) Option {
+	return func(opt *Terminal) error {
+		opt.LineEnding = lineEnding
+		return nil
+	}
 }

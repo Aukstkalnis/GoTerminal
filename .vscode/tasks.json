@@ -6,6 +6,9 @@
         {
             "label": "build",
             "type": "shell",
+            "options": {
+                "cwd": "cmd/GoTerminal"
+            },
             "command": "go",
             "args": [
                 "build"
@@ -21,11 +24,14 @@
         {
             "label": "Run",
             "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}\\cmd\\GoTerminal"
+            },
             "linux": {
-                "command": "./${workspaceRoot}/${workspaceRootFolderName}",
+                "command": "./${workspaceRoot}/${workspaceRootFolderName}"
             },
             "windows": {
-                "command": "${workspaceRoot}/${workspaceRootFolderName}.exe",
+                "command": "${workspaceRoot}\\cmd\\GoTerminal\\GoTerminal.exe"
             },
             "group": {
                 "kind": "test",
@@ -46,7 +52,7 @@
                 "args": [
                     "browse",
                     "${workspaceRoot}"
-                ],
+                ]
             },
             "problemMatcher": []
         }
