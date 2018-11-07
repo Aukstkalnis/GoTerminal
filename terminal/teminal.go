@@ -1,7 +1,9 @@
 package terminal
 
 import (
+	"context"
 	"errors"
+	"strings"
 	"sync"
 
 	serial "github.com/albenik/go-serial"
@@ -30,7 +32,7 @@ type LineEnding string
 
 type Terminal struct {
 	mu           sync.RWMutex
-	port         string
+	Port         string
 	mode         serial.Mode
 	internalPort serial.Port
 	StateRTS     bool
@@ -38,10 +40,7 @@ type Terminal struct {
 	dtrInitState bool
 	rtsInitState bool
 	LineEnding
-	opened  bool
-	err     error
-	readErr error
-	readBuf []byte
+	opened bool
 }
 
 var (
@@ -51,7 +50,7 @@ var (
 
 func New(opts ...Option) (*Terminal, error) {
 	terminal := Terminal{
-		port: "",
+		Port: "",
 		mode: serial.Mode{
 			BaudRate: 115200,
 			DataBits: 8,
@@ -72,7 +71,7 @@ func New(opts ...Option) (*Terminal, error) {
 }
 
 func (t *Terminal) Open() (err error) {
-	t.internalPort, err = serial.Open(t.port, &t.mode)
+	t.internalPort, err = serial.Open(t.Port, &t.mode)
 	if err == nil {
 		err = t.SetDTR(t.dtrInitState)
 		if err == nil {
@@ -114,14 +113,11 @@ func (t *Terminal) SetRTS(state bool) error {
 	return err
 }
 
-func (t *Terminal) read() {
-	// var n int
+func (t *Terminal) read(ctx *context.Context) {
 	// t.mu.RLock()
 	// t.mu.RUnlock()
-	// for {
-	// 	if n, t.readErr = t.internalPort.Read(t.readBuf); t.readErr != nil {
-	// 		return
-	// 	}
-	// 	n = 0
-	// }
+	var line strings.Builder
+	for {
+
+	}
 }
