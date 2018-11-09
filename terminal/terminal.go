@@ -3,8 +3,7 @@ package terminal
 import (
 	"context"
 	"errors"
-	"strings"
-	"sync"
+	"time"
 
 	serial "github.com/albenik/go-serial"
 )
@@ -30,9 +29,35 @@ const (
 
 type LineEnding string
 
+type WorkingMode uint8
+
+// WorkingMode enum
+const (
+	RO_WorkingMode = iota
+	WO_WorkingMode
+	RW_WorkingMode
+)
+
+type PortConfig struct {
+	RTSState bool
+	DTRState bool
+	DataBits uint8
+	WorkingMode
+	Baudrate uint32
+	Parity
+	StopBits
+	Port string
+}
+
+type UserConfig struct {
+	LogToFile bool
+	LogFile   string
+}
+
 type Terminal struct {
-	mu           sync.RWMutex
-	Port         string
+	// mu           sync.RWMutex
+	UserConfig
+	PortConfig
 	mode         serial.Mode
 	internalPort serial.Port
 	StateRTS     bool
@@ -40,17 +65,25 @@ type Terminal struct {
 	dtrInitState bool
 	rtsInitState bool
 	LineEnding
-	opened bool
+	err      error
+	opened   bool
+	readBuf  []byte
+	writeBuf []byte
 }
 
 var (
 	// PortClosedErr shows that ports is closed or not initialized
-	PortClosedErr = errors.New("port is closed")
+	PortClosedErr   = errors.New("port is closed")
+	DTRSetErr       = errors.New("failed to set DTR")
+	RTSSetErr       = errors.New("failed to set RTS")
+	PortNotFoundErr = errors.New("port not found")
 )
 
 func New(opts ...Option) (*Terminal, error) {
 	terminal := Terminal{
-		Port: "",
+		PortConfig: PortConfig{
+			Port: "",
+		},
 		mode: serial.Mode{
 			BaudRate: 115200,
 			DataBits: 8,
@@ -71,17 +104,26 @@ func New(opts ...Option) (*Terminal, error) {
 }
 
 func (t *Terminal) Open() (err error) {
+	// Load Config
+	t.mode.BaudRate = int(t.Baudrate)
+	t.mode.DataBits = int(t.DataBits)
+	t.mode.Parity = serial.Parity(t.Parity)
+	t.mode.StopBits = serial.StopBits(t.StopBits)
+	// Open Port
 	t.internalPort, err = serial.Open(t.Port, &t.mode)
-	if err == nil {
-		err = t.SetDTR(t.dtrInitState)
-		if err == nil {
-			err = t.SetRTS(t.rtsInitState)
-		}
-	}
 	if err != nil {
-		t.opened = false
+		return err
 	}
-	return err
+	if err = t.SetDTR(t.dtrInitState); err != nil {
+		t.internalPort.Close()
+		return DTRSetErr
+	}
+	if err = t.SetRTS(t.rtsInitState); err != nil {
+		t.internalPort.Close()
+		return DTRSetErr
+	}
+
+	return nil
 }
 
 func (t *Terminal) Close() error {
@@ -113,11 +155,16 @@ func (t *Terminal) SetRTS(state bool) error {
 	return err
 }
 
-func (t *Terminal) read(ctx *context.Context) {
-	// t.mu.RLock()
-	// t.mu.RUnlock()
-	var line strings.Builder
+func (t *Terminal) WaitResponse(response string, tmo time.Duration) error {
+	return nil
+}
+
+func (t *Terminal) readRoutine(ctx *context.Context) {
 	for {
+		select {}
+	}
+	if t.LogToFile && t.LogFile != "" {
 
 	}
+
 }

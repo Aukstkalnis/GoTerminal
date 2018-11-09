@@ -6,7 +6,7 @@ type Option func(*Terminal) error
 
 func SetPort(port string) Option {
 	return func(opt *Terminal) error {
-		opt.port = port
+		opt.Port = port
 		return nil
 	}
 }
