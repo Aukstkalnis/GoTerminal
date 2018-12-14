@@ -3,6 +3,9 @@ package terminal
 import (
 	"context"
 	"errors"
+	"log"
+	"os"
+	"sync"
 	"time"
 
 	serial "github.com/albenik/go-serial"
@@ -41,8 +44,8 @@ const (
 type PortConfig struct {
 	RTSState bool
 	DTRState bool
-	DataBits uint8
 	WorkingMode
+	DataBits uint8
 	Baudrate uint32
 	Parity
 	StopBits
@@ -54,45 +57,51 @@ type UserConfig struct {
 	LogFile   string
 }
 
+type internal struct {
+	opened       bool
+	dtrInitState bool
+	rtsInitState bool
+	port         serial.Port
+}
+
 type Terminal struct {
-	// mu           sync.RWMutex
+	mu sync.RWMutex
 	UserConfig
 	PortConfig
-	mode         serial.Mode
 	internalPort serial.Port
 	StateRTS     bool
 	StateDTR     bool
-	dtrInitState bool
-	rtsInitState bool
 	LineEnding
+	internal
 	err      error
-	opened   bool
 	readBuf  []byte
 	writeBuf []byte
 }
 
 var (
 	// PortClosedErr shows that ports is closed or not initialized
-	PortClosedErr   = errors.New("port is closed")
-	DTRSetErr       = errors.New("failed to set DTR")
-	RTSSetErr       = errors.New("failed to set RTS")
-	PortNotFoundErr = errors.New("port not found")
+	ErrPortClosed   = errors.New("port is closed")
+	ErrDTRSet       = errors.New("failed to set DTR")
+	ErrRTSSet       = errors.New("failed to set RTS")
+	ErrPortNotFound = errors.New("port not found")
+	ErrPortNotSet   = errors.New("port not set")
 )
 
 func New(opts ...Option) (*Terminal, error) {
 	terminal := Terminal{
 		PortConfig: PortConfig{
-			Port: "",
-		},
-		mode: serial.Mode{
-			BaudRate: 115200,
+			Port:     "",
+			Baudrate: 115200,
 			DataBits: 8,
-			Parity:   serial.NoParity,
-			StopBits: serial.OneStopBit,
+			Parity:   NoParity,
+			StopBits: OneStopBit,
 		},
-		LineEnding:   "\r",
-		dtrInitState: false,
-		rtsInitState: false,
+		LineEnding: "\r",
+		internal: internal{
+			opened:       false,
+			dtrInitState: false,
+			rtsInitState: false,
+		},
 	}
 	var err error
 	for _, o := range opts {
@@ -104,25 +113,25 @@ func New(opts ...Option) (*Terminal, error) {
 }
 
 func (t *Terminal) Open() (err error) {
-	// Load Config
-	t.mode.BaudRate = int(t.Baudrate)
-	t.mode.DataBits = int(t.DataBits)
-	t.mode.Parity = serial.Parity(t.Parity)
-	t.mode.StopBits = serial.StopBits(t.StopBits)
-	// Open Port
-	t.internalPort, err = serial.Open(t.Port, &t.mode)
+	if t.Port == "" {
+		return ErrPortNotSet
+	}
+	t.internalPort, err = serial.Open(t.Port, &serial.Mode{int(t.Baudrate), int(t.DataBits), serial.Parity(t.Parity), serial.StopBits(t.StopBits)})
 	if err != nil {
 		return err
 	}
 	if err = t.SetDTR(t.dtrInitState); err != nil {
 		t.internalPort.Close()
-		return DTRSetErr
+		return ErrDTRSet
 	}
 	if err = t.SetRTS(t.rtsInitState); err != nil {
 		t.internalPort.Close()
-		return DTRSetErr
+		return ErrRTSSet
 	}
-
+	t.opened = true
+	if t.WorkingMode == RO_WorkingMode || t.WorkingMode == RW_WorkingMode {
+		go t.readRoutine(context.Background())
+	}
 	return nil
 }
 
@@ -156,15 +165,29 @@ func (t *Terminal) SetRTS(state bool) error {
 }
 
 func (t *Terminal) WaitResponse(response string, tmo time.Duration) error {
+	t.mu.Lock()
+	t.mu.Unlock()
 	return nil
 }
 
-func (t *Terminal) readRoutine(ctx *context.Context) {
+func (t *Terminal) readRoutine(ctx context.Context) {
+	var (
+		// n    int
+		err  error
+		file *os.File
+	)
 	for {
-		select {}
+		if t.opened {
+			if _, err = t.internal.port.Read(t.readBuf); err != nil {
+				log.Println("failed to read:", err)
+				t.err = err
+				if file != nil {
+					if err = file.Close(); err != nil {
+						log.Println("failed to close log file:", err)
+					}
+				}
+				break
+			}
+		}
 	}
-	if t.LogToFile && t.LogFile != "" {
-
-	}
-
 }

@@ -8,9 +8,6 @@
 			"name": "Terminal"
 		},
 		{
-			"path": "D:\\Projects\\Go_Projects\\GoPath\\pkg\\mod\\github.com\\sciter-sdk\\go-sciter@v0.5.0"
-		},
-		{
 			"name": "GO Root Source",
 			"path": "C:\\go\\src"
 		}

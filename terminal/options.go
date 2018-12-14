@@ -1,7 +1,5 @@
 package terminal
 
-import serial "github.com/albenik/go-serial"
-
 type Option func(*Terminal) error
 
 func SetPort(port string) Option {
@@ -13,28 +11,28 @@ func SetPort(port string) Option {
 
 func SetBaudrate(baudrate uint32) Option {
 	return func(opt *Terminal) error {
-		opt.mode.BaudRate = int(baudrate)
+		opt.Baudrate = baudrate
 		return nil
 	}
 }
 
-func SetDataBits(dataBits int) Option {
+func SetDataBits(dataBits uint8) Option {
 	return func(opt *Terminal) error {
-		opt.mode.DataBits = dataBits
+		opt.DataBits = dataBits
 		return nil
 	}
 }
 
 func SetParity(parity Parity) Option {
 	return func(opt *Terminal) error {
-		opt.mode.Parity = serial.Parity(parity)
+		opt.Parity = parity
 		return nil
 	}
 }
 
 func SetStopBits(stopBits StopBits) Option {
 	return func(opt *Terminal) error {
-		opt.mode.StopBits = serial.StopBits(stopBits)
+		opt.StopBits = stopBits
 		return nil
 	}
 }
