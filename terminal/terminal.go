@@ -68,9 +68,8 @@ type Terminal struct {
 	mu sync.RWMutex
 	UserConfig
 	PortConfig
-	internalPort serial.Port
-	StateRTS     bool
-	StateDTR     bool
+	StateRTS bool
+	StateDTR bool
 	LineEnding
 	internal
 	err      error
@@ -116,20 +115,21 @@ func (t *Terminal) Open() (err error) {
 	if t.Port == "" {
 		return ErrPortNotSet
 	}
-	t.internalPort, err = serial.Open(t.Port, &serial.Mode{int(t.Baudrate), int(t.DataBits), serial.Parity(t.Parity), serial.StopBits(t.StopBits)})
+	t.internal.port, err = serial.Open(t.Port, &serial.Mode{int(t.Baudrate), int(t.DataBits), serial.Parity(t.Parity), serial.StopBits(t.StopBits)})
 	if err != nil {
 		return err
 	}
 	if err = t.SetDTR(t.dtrInitState); err != nil {
-		t.internalPort.Close()
+		t.internal.port.Close()
 		return ErrDTRSet
 	}
 	if err = t.SetRTS(t.rtsInitState); err != nil {
-		t.internalPort.Close()
+		t.internal.port.Close()
 		return ErrRTSSet
 	}
 	t.opened = true
 	if t.WorkingMode == RO_WorkingMode || t.WorkingMode == RW_WorkingMode {
+		log.Println("Start reading goroutine")
 		go t.readRoutine(context.Background())
 	}
 	return nil
@@ -137,19 +137,19 @@ func (t *Terminal) Open() (err error) {
 
 func (t *Terminal) Close() error {
 	t.opened = false
-	return t.internalPort.Close()
+	return t.internal.port.Close()
 }
 
 func (t *Terminal) Write(b []byte) (n int, err error) {
-	return t.internalPort.Write(b)
+	return t.internal.port.Write(b)
 }
 
 func (t *Terminal) Read(b []byte) (int, error) {
-	return t.internalPort.Read(b)
+	return t.internal.port.Read(b)
 }
 
 func (t *Terminal) SetDTR(state bool) error {
-	err := t.internalPort.SetDTR(state)
+	err := t.internal.port.SetDTR(state)
 	if err != nil {
 		t.StateDTR = state
 	}
@@ -157,7 +157,7 @@ func (t *Terminal) SetDTR(state bool) error {
 }
 
 func (t *Terminal) SetRTS(state bool) error {
-	err := t.internalPort.SetRTS(state)
+	err := t.internal.port.SetRTS(state)
 	if err != nil {
 		t.StateRTS = state
 	}
@@ -176,6 +176,9 @@ func (t *Terminal) readRoutine(ctx context.Context) {
 		err  error
 		file *os.File
 	)
+	if len(t.readBuf) == 0 {
+		t.readBuf = make([]byte, 1204)
+	}
 	for {
 		if t.opened {
 			if _, err = t.internal.port.Read(t.readBuf); err != nil {
@@ -188,6 +191,9 @@ func (t *Terminal) readRoutine(ctx context.Context) {
 				}
 				break
 			}
+		} else {
+			log.Println("port closed, stop reading")
+			break
 		}
 	}
 }
