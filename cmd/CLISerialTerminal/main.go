@@ -17,7 +17,7 @@ func main() {
 		log.Fatal("failed to open port:", err)
 	}
 	for {
-		<-time.After(time.Minute)
+		<-time.After(10 * time.Second)
 		fmt.Println("tick")
 	}
 }

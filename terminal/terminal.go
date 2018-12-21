@@ -9,6 +9,7 @@ import (
 	"time"
 
 	serial "github.com/albenik/go-serial"
+	"github.com/sirupsen/logrus"
 )
 
 type Parity serial.Parity
@@ -129,7 +130,7 @@ func (t *Terminal) Open() (err error) {
 	}
 	t.opened = true
 	if t.WorkingMode == RO_WorkingMode || t.WorkingMode == RW_WorkingMode {
-		log.Println("Start reading goroutine")
+		logrus.Println("Start reading goroutine")
 		go t.readRoutine(context.Background())
 	}
 	return nil
@@ -182,11 +183,11 @@ func (t *Terminal) readRoutine(ctx context.Context) {
 	for {
 		if t.opened {
 			if _, err = t.internal.port.Read(t.readBuf); err != nil {
-				log.Println("failed to read:", err)
+				logrus.Println("failed to read:", err)
 				t.err = err
 				if file != nil {
 					if err = file.Close(); err != nil {
-						log.Println("failed to close log file:", err)
+						logrus.Println("failed to close log file:", err)
 					}
 				}
 				break

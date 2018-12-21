@@ -4,8 +4,12 @@
 			"path": "."
 		},
 		{
-			"path": "cmd\\GoTerminal",
-			"name": "Terminal"
+			"name": "CLI Terminal",
+			"path": "cmd\\CLISerialTerminal"
+		},
+		{
+			"name": "Terminal",
+			"path": "cmd\\GoTerminal"
 		},
 		{
 			"name": "GO Root Source",
