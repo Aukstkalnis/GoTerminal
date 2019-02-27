@@ -9,9 +9,11 @@ import (
 )
 
 func main() {
-	term, err := terminal.New(terminal.SetPort("COM12"))
+	term, err := terminal.New(
+		terminal.SetPort("COM12"),
+	)
 	if err != nil {
-		log.Fatal("feiled to create terminal:", err)
+		log.Fatal("failed to create terminal:", err)
 	}
 	if err = term.Open(); err != nil {
 		log.Fatal("failed to open port:", err)
