@@ -116,7 +116,13 @@ func (t *Terminal) Open() (err error) {
 	if t.Port == "" {
 		return ErrPortNotSet
 	}
-	t.internal.port, err = serial.Open(t.Port, &serial.Mode{int(t.Baudrate), int(t.DataBits), serial.Parity(t.Parity), serial.StopBits(t.StopBits)})
+	t.internal.port, err = serial.Open(
+		t.Port,
+		&serial.Mode{int(t.Baudrate),
+			int(t.DataBits),
+			serial.Parity(t.Parity),
+			serial.StopBits(t.StopBits)},
+	)
 	if err != nil {
 		return err
 	}
