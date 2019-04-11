@@ -8,6 +8,36 @@
         body {
             margin: 0;
         }
+        .hbox {
+            flow:horizontal;
+            display: block;
+            height: *;
+            width: *;
+        }
+
+        .vbox {
+            flow:vertical;
+            display: block;
+            height: *;
+            width: *;
+        }
+
+        div#navigation-list {
+            display: block;
+            /* background: rgb(94, 85, 83); */
+            background-color: rgb(50, 37, 43);
+            width: 50px;
+            height: *;
+        }
+
+        #container {
+            padding: 0;
+            display: block;
+            background: #84b5e4;
+            flow: horizontal;
+            width: *;
+            height: *;
+        }
 
         div#tabs { flow:horizontal;}
 
@@ -64,40 +94,45 @@
 </head>
 
 <body>
-    <frameset cols="250dip,*">
-        <div id="sidebar">
-            <div class="sidebar-veiw">
-                <div id="fast-control-panel">
-                    <button class="button">Open</button>
-                    <select|dropdown id="port-list"/>
-                    <input type="checkbox">DTR</input>
-                    <input type="checkbox">RTS</input>
-                </div>
-                <div #tabs>
-                    <label checked .t1>Settings</label>
-                    <label .t2>Commands</label>
-                    <label .t3>Search</label>
-                </div>
-                <div #panels>
-                    <div #panel-settings>
-                        <include src="res/SerialSettings.html" />
+    <div class="hbox">
+        <div id="navigation-list">
+            dsfaf
+        </div>
+        <frameset cols="250dip,*">
+            <div id="sidebar">
+                <div class="sidebar-veiw">
+                    <div id="fast-control-panel">
+                        <button class="button">Open</button>
+                        <select|dropdown #port-list/>
+                        <input type="checkbox">DTR</input>
+                        <input type="checkbox">RTS</input>
                     </div>
-                    <div #panel-commands>
-                        <include src="res/SerialCommandsTab.html" />
+                    <div #tabs>
+                        <label checked .t1>Settings</label>
+                        <label .t2>Commands</label>
+                        <label .t3>Search</label>
                     </div>
-                    <div #panel-search>
-                        <include src="res/Search.html" />
+                    <div #panels>
+                        <div #panel-settings>
+                            <include src="res/SerialSettings.html" />
+                        </div>
+                        <div #panel-commands>
+                            <include src="res/SerialCommandsTab.html" />
+                        </div>
+                        <div #panel-search>
+                            <include src="res/Search.html" />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div id="term-view">
-            <div ></div>
-            <output type="text">
-
-            </output>
-        </div>
-    </frameset>
+            <div id="term-view">
+                <div id="terminal-output">
+                    <p>This is text node</p>
+                    <p>This is text node2</p>
+                </div>
+            </div>
+        </frameset>
+    </div>
     <statusbar>
         CTC CD DSR RI <strong>DTR RTS</strong>
     </statusbar>

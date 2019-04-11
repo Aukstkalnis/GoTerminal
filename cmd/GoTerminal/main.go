@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"time"
 
 	"github.com/Aukstkalnis/GoTerminal/terminal"
 	sciter "github.com/sciter-sdk/go-sciter"
@@ -56,5 +57,18 @@ func setCallBacks(root *sciter.Element) {
 		fmt.Println("OnClick Event!")
 	})
 
+	output, err := root.SelectById("terminal-output")
+	if err != nil {
+		return
+	}
+	go func() {
+	w:
+		var elm = sciter.Element{}
+		elm.SetText("<p>this is element x</p>")
+		output.Append(&elm)
+		fmt.Println("append")
+		time.Sleep(time.Second)
+		goto w
+	}()
 	// e, err = root.SelectById()
 }
