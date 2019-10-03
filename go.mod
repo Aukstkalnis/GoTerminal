@@ -6,4 +6,7 @@ require (
 	github.com/lxn/win v0.0.0-20190716185335-d1d36f0e4f48 // indirect
 	github.com/sciter-sdk/go-sciter v0.5.0
 	github.com/sirupsen/logrus v1.4.2
+	golang.org/x/sys v0.0.0-20190726091711-fc99dfbffb4e // indirect
 )
+
+go 1.13
