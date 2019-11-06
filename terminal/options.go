@@ -57,3 +57,10 @@ func SetLineEnding(lineEnding LineEnding) Option {
 		return nil
 	}
 }
+
+func SetLogFile(fileName string) Option {
+	return func(opt *Terminal) error {
+		opt.LogFile = fileName
+		return nil
+	}
+}

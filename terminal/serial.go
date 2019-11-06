@@ -1,7 +1,6 @@
 package terminal
 
 import (
-	"context"
 	"errors"
 	"log"
 	"os"
@@ -64,18 +63,24 @@ type internal struct {
 	rtsInitState bool
 	port         serial.Port
 }
+type packetControl struct {
+	packetHandler func([]byte) (int, error)
+	packetParser  func([]byte) (int, error)
+}
 
 type Terminal struct {
 	mu sync.RWMutex
 	UserConfig
 	PortConfig
-	StateRTS bool
-	StateDTR bool
+	StateRTS    bool
+	StateDTR    bool
+	ReadBufSize uint16
 	LineEnding
 	internal
-	err      error
-	readBuf  []byte
-	writeBuf []byte
+	err         error
+	readBuf     []byte
+	writeBuf    []byte
+	dataControl []packetControl
 }
 
 var (
@@ -137,7 +142,7 @@ func (t *Terminal) Open() (err error) {
 	t.opened = true
 	if t.WorkingMode == RO_WorkingMode || t.WorkingMode == RW_WorkingMode {
 		logrus.Println("Start reading goroutine")
-		go t.readRoutine(context.Background())
+		go t.readRoutine()
 	}
 	return nil
 }
@@ -177,14 +182,14 @@ func (t *Terminal) WaitResponse(response string, tmo time.Duration) error {
 	return nil
 }
 
-func (t *Terminal) readRoutine(ctx context.Context) {
+func (t *Terminal) readRoutine() {
 	var (
 		// n    int
 		err  error
 		file *os.File
 	)
 	if len(t.readBuf) == 0 {
-		t.readBuf = make([]byte, 1204)
+		t.readBuf = make([]byte, t.ReadBufSize)
 	}
 	for {
 		if t.opened {
@@ -203,4 +208,8 @@ func (t *Terminal) readRoutine(ctx context.Context) {
 			break
 		}
 	}
+}
+
+func defaultPacketReader(data []byte) {
+
 }
