@@ -1,2 +1,11 @@
-* Add packed parser and packed handler functionality
-* Add console
+[ ] GUI: Add Grid layout for multiple terminals
+[ ] GUI: Add tabs that can be moved from one view to other
+[ ] GUI: Add preview of possible layout after tab is dragged to view edges
+[ ] GUI: Add simple terminal implementation:
+         [ ] Control interface: Open/Close, Port, Boudrate, send input, line ending, send button, clear button
+		 [ ] Add textgrid to store lines of input data
+		 [ ] Add go callbacks to support user actions
+
+Serial port library:
+[ ] Add packed parser and packed handler functionality
+[ ] Add console aplication for using terminal in console

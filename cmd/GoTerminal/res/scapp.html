@@ -2,139 +2,55 @@
 
 <head>
     <style>
-        @import url(res/terminal.css);
-        @import url(terminal.css);
         html,
         body {
             margin: 0;
         }
+
+        statusbar {
+            background-color: aqua;
+            display: block;
+        }
+
         .hbox {
-            flow:horizontal;
+            flow: horizontal;
             display: block;
             height: *;
             width: *;
         }
 
         .vbox {
-            flow:vertical;
+            flow: vertical;
             display: block;
             height: *;
             width: *;
         }
 
-        div#navigation-list {
+        div#navigation-bar {
             display: block;
             /* background: rgb(94, 85, 83); */
             background-color: rgb(50, 37, 43);
+            color: white;
             width: 50px;
             height: *;
         }
-
-        #container {
-            padding: 0;
-            display: block;
-            background: #84b5e4;
-            flow: horizontal;
-            width: *;
-            height: *;
-        }
-
-        div#tabs { flow:horizontal;}
-
-        div#tabs > label {
-            display:block;
-            width: max-content;
-            color:white;
-            padding:4px 12px;
-            margin:0 -8px;
-            background-color: silver;
-            behavior:switch; /* so only one has :checked state */
-        }
-        div#tabs > label:first-child { margin-left:0; }
-        div#tabs > label:last-child { margin-right:0; }
-        div#tabs > label.placeholder { visibility:hidden; }
-
-        div#tabs > label { background-color: rgb(94, 85, 83); }
-
-        div#tabs > label:checked {
-            background-color: rgb(84, 85, 83);
-            position:relative;
-        }
-
     </style>
-    <script type="text/tiscript">
-        function self.ready() {
-            $(#panel-settings).style#display = "block";
-            $(#panel-commands).style#display = "none";
-            $(#panel-search).style#display = "none";
-        }
-        $(.button) << event click() {
-            if (this.text == "Close") {
-                this.text = "Open";
-            } else {
-                this.text = "Close";
-            }
-        };
-        $(div#tabs > label.t1) << event click() {
-            $(#panel-settings).style#display = "block";
-            $(#panel-commands).style#display = "none";
-            $(#panel-search).style#display = "none";
-        };
-        $(div#tabs > label.t2) << event click() {
-            $(#panel-settings).style#display = "none";
-            $(#panel-commands).style#display = "block";
-            $(#panel-search).style#display = "none";
-        };
-        $(div#tabs > label.t3) << event click() {
-            $(#panel-settings).style#display = "none";
-            $(#panel-commands).style#display = "none";
-            $(#panel-search).style#display = "block";
-        };
-    </script>
 </head>
 
 <body>
     <div class="hbox">
-        <div id="navigation-list">
-            dsfaf
+        <div id="navigation-bar">
+            <p>COM</p>
+            <p>TCP</p>
+            <p>UDP</p>
+            <p style="">+</p>
         </div>
-        <frameset cols="250dip,*">
-            <div id="sidebar">
-                <div class="sidebar-veiw">
-                    <div id="fast-control-panel">
-                        <button class="button">Open</button>
-                        <select|dropdown #port-list/>
-                        <input type="checkbox">DTR</input>
-                        <input type="checkbox">RTS</input>
-                    </div>
-                    <div #tabs>
-                        <label checked .t1>Settings</label>
-                        <label .t2>Commands</label>
-                        <label .t3>Search</label>
-                    </div>
-                    <div #panels>
-                        <div #panel-settings>
-                            <include src="res/SerialSettings.html" />
-                        </div>
-                        <div #panel-commands>
-                            <include src="res/SerialCommandsTab.html" />
-                        </div>
-                        <div #panel-search>
-                            <include src="res/Search.html" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div id="term-view">
-                <div id="terminal-output">
-                    <p>This is text node</p>
-                    <p>This is text node2</p>
-                </div>
-            </div>
-        </frameset>
+        <div id="view-container">
+
+        </div>
     </div>
     <statusbar>
-        CTC CD DSR RI <strong>DTR RTS</strong>
+        This is status bar
     </statusbar>
 </body>
 

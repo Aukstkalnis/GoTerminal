@@ -72,15 +72,17 @@ type Terminal struct {
 	mu sync.RWMutex
 	UserConfig
 	PortConfig
-	StateRTS    bool
-	StateDTR    bool
+	RTSState    bool
+	DTRState    bool
 	ReadBufSize uint16
 	LineEnding
 	internal
-	err         error
-	readBuf     []byte
-	writeBuf    []byte
-	dataControl []packetControl
+	err           error
+	readBuf       []byte
+	writeBuf      []byte
+	dataControl   []packetControl
+	packetCapurer func(b []byte) (int, error)
+	packetHandler func(b []byte) (int, error)
 }
 
 var (
@@ -92,6 +94,16 @@ var (
 	ErrPortNotSet   = errors.New("port not set")
 )
 
+func defaultParser(b []byte) (n int, err error) {
+
+	return 0, nil
+}
+
+func defaultHandler(b []byte) (n int, err error) {
+
+	return 0, nil
+}
+
 func New(opts ...Option) (*Terminal, error) {
 	terminal := Terminal{
 		PortConfig: PortConfig{
@@ -101,7 +113,9 @@ func New(opts ...Option) (*Terminal, error) {
 			Parity:   NoParity,
 			StopBits: OneStopBit,
 		},
-		LineEnding: "\r",
+		packetCapurer: defaultParser,
+		packetHandler: defaultHandler,
+		LineEnding:    "\r",
 		internal: internal{
 			opened:       false,
 			dtrInitState: false,
@@ -163,7 +177,7 @@ func (t *Terminal) Read(b []byte) (int, error) {
 func (t *Terminal) SetDTR(state bool) error {
 	err := t.internal.port.SetDTR(state)
 	if err != nil {
-		t.StateDTR = state
+		t.DTRState = state
 	}
 	return err
 }
@@ -171,7 +185,7 @@ func (t *Terminal) SetDTR(state bool) error {
 func (t *Terminal) SetRTS(state bool) error {
 	err := t.internal.port.SetRTS(state)
 	if err != nil {
-		t.StateRTS = state
+		t.RTSState = state
 	}
 	return err
 }

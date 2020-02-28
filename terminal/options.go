@@ -64,3 +64,17 @@ func SetLogFile(fileName string) Option {
 		return nil
 	}
 }
+
+func SetParser(parseFunction func(b []byte) (n int, err error)) Option {
+	return func(opt *Terminal) error {
+		opt.packetCapurer = parseFunction
+		return nil
+	}
+}
+
+func SetHandler(handlerFunction func(b []byte) (n int, err error)) Option {
+	return func(opt *Terminal) error {
+		opt.packetHandler = handlerFunction
+		return nil
+	}
+}
