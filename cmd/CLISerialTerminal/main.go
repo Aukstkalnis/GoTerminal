@@ -38,7 +38,7 @@ func main() {
 	}
 	defer traceFile.Close()
 	log.SetOutput(traceFile)
-	
+
 	current := console.Current()
 	defer current.Reset()
 

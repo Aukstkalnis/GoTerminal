@@ -12,15 +12,15 @@
 			"path": "cmd\\GoTerminal"
 		},
 		{
+			"name": "fyne_demo",
+			"path": "D:/Projects/Go_Projects/GoPath/pkg/mod/fyne.io/fyne/v2@v2.0.4/cmd/fyne_demo"
+		},
+		{
 			"name": "GO Root Source",
 			"path": "C:\\go\\src"
 		}
 	],
 	"settings": {
-		"go.languageServerExperimentalFeatures": {
-			"format": false,
-			"autoComplete": true
-		},
 		"go.useLanguageServer": true
 	}
 }

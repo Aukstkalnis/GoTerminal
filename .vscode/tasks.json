@@ -2,6 +2,11 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
     "version": "2.0.0",
+    "options": {
+        "env": {
+            "path": "C:\\msys64\\mingw64\\bin"
+        }
+    },
     "tasks": [
         {
             "label": "build",
@@ -22,17 +27,33 @@
             }
         },
         {
-            "label": "Run",
+            "label": "build: GoTerminal_Fyne",
             "type": "shell",
             "options": {
-                "cwd": "${workspaceRoot}\\cmd\\GoTerminal"
+                "cwd": "cmd/GoTerminal_Fyne"
             },
-            "linux": {
-                "command": "./${workspaceRoot}/${workspaceRootFolderName}"
+            "command": "go",
+            "args": [
+                "build"
+            ],
+            "problemMatcher": [
+                "$go"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Run: GoTerminalFyne",
+            "type": "shell",
+            "options": {
+                "cwd": "${workspaceRoot}\\cmd\\GoTerminal_Fyne"
             },
-            "windows": {
-                "command": "${workspaceRoot}\\cmd\\GoTerminal\\GoTerminal.exe"
-            },
+            "command": "start",
+            "args": [
+                "${workspaceRoot}\\cmd\\GoTerminal\\GoTerminal.exe"
+            ],
             "group": {
                 "kind": "test",
                 "isDefault": true

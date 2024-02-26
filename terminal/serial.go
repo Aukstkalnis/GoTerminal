@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	serial "github.com/albenik/go-serial"
+	serial "github.com/albenik/go-serial/v2"
 	"github.com/sirupsen/logrus"
 )
 
@@ -131,7 +131,7 @@ func New(opts ...Option) (*Terminal, error) {
 	return &terminal, err
 }
 
-func (t *Terminal) Open() (err error) {
+func (t *Terminal) Open(port string) (err error) {
 	if t.Port == "" {
 		return ErrPortNotSet
 	}

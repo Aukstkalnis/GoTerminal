@@ -1,9 +1,9 @@
 package terminal
 
 import (
+	"runtime"
 	"sort"
 	"strconv"
-	"strings"
 
 	"github.com/albenik/go-serial/enumerator"
 )
@@ -18,14 +18,17 @@ func GetPortList() []string {
 	for i, v := range list {
 		availablePorts[i] = v.Name
 	}
-	// sort com ports
-	if strings.Contains(availablePorts[0], "COM") {
+	switch runtime.GOOS {
+	case "windows":
 		// Sort windows serial ports
 		sort.Slice(availablePorts, func(i, j int) bool {
 			numA, _ := strconv.Atoi(availablePorts[i][3:])
 			numB, _ := strconv.Atoi(availablePorts[j][3:])
 			return numA < numB
 		})
+	case "linux":
+		// Sort linux serial ports
+		return []string{}
 	}
 	return availablePorts
 }
